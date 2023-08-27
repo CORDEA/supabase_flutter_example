@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SignUp extends StatelessWidget {
+import 'sign_up_view_model.dart';
+
+class SignUp extends ConsumerWidget {
   const SignUp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign in')),
       body: Padding(
@@ -15,20 +18,21 @@ class SignUp extends StatelessWidget {
               decoration: const InputDecoration(
                 hintText: 'Email address',
               ),
-              onChanged: (text) {},
+              onChanged:
+                  ref.read(signUpViewModelProvider).onEmailAddressChanged,
             ),
             const SizedBox(height: 16),
             TextField(
               decoration: const InputDecoration(
                 hintText: 'Password',
               ),
-              onChanged: (text) {},
+              onChanged: ref.read(signUpViewModelProvider).onPasswordChanged,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.large(
-        onPressed: () {},
+        onPressed: ref.read(signUpViewModelProvider).onSubmitTapped,
         child: const Icon(Icons.check),
       ),
     );
