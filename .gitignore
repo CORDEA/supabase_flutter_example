@@ -47,3 +47,4 @@ app.*.map.json
 generated_plugins.*
 generated_plugin_registrant.*
 GeneratedPluginRegistrant.*
+*.env
