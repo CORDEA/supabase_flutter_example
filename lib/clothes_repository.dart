@@ -14,6 +14,11 @@ class ClothesRepository {
 
   final SupabaseClient _client;
 
+  Future<List<Clothes>> findAll() async {
+    final items = await _client.from('clothes').select<PostgrestList>();
+    return items.map((e) => Clothes.fromMap(e)).toList(growable: false);
+  }
+
   Future<void> insert(Clothes clothes) async {
     await _client.from('clothes').insert(clothes.toMap());
   }

@@ -7,6 +7,7 @@ class Clothes with _$Clothes {
   const Clothes._();
 
   const factory Clothes.tops({
+    @Default(0) int id,
     required String name,
     required int width,
     required int length,
@@ -25,5 +26,19 @@ class Clothes with _$Clothes {
         'shoulder_width': e.shoulderWidth,
       },
     );
+  }
+
+  static Clothes fromMap(Map<String, dynamic> map) {
+    if (map['type'] == 0) {
+      return Clothes.tops(
+        id: map['id'],
+        name: map['name'],
+        width: map['width'],
+        length: map['length'],
+        sleeveLength: map['sleeve_length'],
+        shoulderWidth: map['shoulder_width'],
+      );
+    }
+    throw UnimplementedError();
   }
 }

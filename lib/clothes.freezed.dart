@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Clothes {
+  int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get width => throw _privateConstructorUsedError;
   int get length => throw _privateConstructorUsedError;
@@ -23,22 +24,22 @@ mixin _$Clothes {
   int get shoulderWidth => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String name, int width, int length,
+    required TResult Function(int id, String name, int width, int length,
             int sleeveLength, int shoulderWidth)
         tops,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String name, int width, int length, int sleeveLength,
-            int shoulderWidth)?
+    TResult? Function(int id, String name, int width, int length,
+            int sleeveLength, int shoulderWidth)?
         tops,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String name, int width, int length, int sleeveLength,
-            int shoulderWidth)?
+    TResult Function(int id, String name, int width, int length,
+            int sleeveLength, int shoulderWidth)?
         tops,
     required TResult orElse(),
   }) =>
@@ -65,13 +66,17 @@ mixin _$Clothes {
 
 class _$_Tops extends _Tops {
   const _$_Tops(
-      {required this.name,
+      {this.id = 0,
+      required this.name,
       required this.width,
       required this.length,
       required this.sleeveLength,
       required this.shoulderWidth})
       : super._();
 
+  @override
+  @JsonKey()
+  final int id;
   @override
   final String name;
   @override
@@ -85,7 +90,7 @@ class _$_Tops extends _Tops {
 
   @override
   String toString() {
-    return 'Clothes.tops(name: $name, width: $width, length: $length, sleeveLength: $sleeveLength, shoulderWidth: $shoulderWidth)';
+    return 'Clothes.tops(id: $id, name: $name, width: $width, length: $length, sleeveLength: $sleeveLength, shoulderWidth: $shoulderWidth)';
   }
 
   @override
@@ -93,6 +98,7 @@ class _$_Tops extends _Tops {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Tops &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.width, width) || other.width == width) &&
             (identical(other.length, length) || other.length == length) &&
@@ -104,38 +110,38 @@ class _$_Tops extends _Tops {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, width, length, sleeveLength, shoulderWidth);
+      runtimeType, id, name, width, length, sleeveLength, shoulderWidth);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String name, int width, int length,
+    required TResult Function(int id, String name, int width, int length,
             int sleeveLength, int shoulderWidth)
         tops,
   }) {
-    return tops(name, width, length, sleeveLength, shoulderWidth);
+    return tops(id, name, width, length, sleeveLength, shoulderWidth);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String name, int width, int length, int sleeveLength,
-            int shoulderWidth)?
+    TResult? Function(int id, String name, int width, int length,
+            int sleeveLength, int shoulderWidth)?
         tops,
   }) {
-    return tops?.call(name, width, length, sleeveLength, shoulderWidth);
+    return tops?.call(id, name, width, length, sleeveLength, shoulderWidth);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String name, int width, int length, int sleeveLength,
-            int shoulderWidth)?
+    TResult Function(int id, String name, int width, int length,
+            int sleeveLength, int shoulderWidth)?
         tops,
     required TResult orElse(),
   }) {
     if (tops != null) {
-      return tops(name, width, length, sleeveLength, shoulderWidth);
+      return tops(id, name, width, length, sleeveLength, shoulderWidth);
     }
     return orElse();
   }
@@ -171,13 +177,16 @@ class _$_Tops extends _Tops {
 
 abstract class _Tops extends Clothes {
   const factory _Tops(
-      {required final String name,
+      {final int id,
+      required final String name,
       required final int width,
       required final int length,
       required final int sleeveLength,
       required final int shoulderWidth}) = _$_Tops;
   const _Tops._() : super._();
 
+  @override
+  int get id;
   @override
   String get name;
   @override
