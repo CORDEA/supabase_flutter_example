@@ -24,10 +24,18 @@ class AddClothes extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Add clothes')),
       body: _Body(),
-      floatingActionButton: FloatingActionButton.large(
-        onPressed: ref.read(addClothesViewModelProvider).onSubmitTapped,
-        child: const Icon(Icons.check),
-      ),
+      floatingActionButton: Consumer(builder: (context, ref, _) {
+        final loading = ref.watch(
+            addClothesViewModelProvider.select((value) => value.isLoading));
+        return FloatingActionButton.large(
+          onPressed: loading
+              ? null
+              : ref.read(addClothesViewModelProvider).onSubmitTapped,
+          child: loading
+              ? const CircularProgressIndicator()
+              : const Icon(Icons.check),
+        );
+      }),
     );
   }
 }

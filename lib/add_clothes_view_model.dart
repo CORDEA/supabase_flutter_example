@@ -26,8 +26,11 @@ class AddClothesViewModel extends ChangeNotifier {
   final ClothesRepository _repository;
   final _event = PublishSubject<AddClothesViewEvent>();
 
+  bool get isLoading => _isLoading;
+
   PublishSubject<AddClothesViewEvent> get event => _event;
 
+  bool _isLoading = false;
   StreamSubscription? _subscription;
   String _name = '';
   String _width = '';
@@ -56,6 +59,8 @@ class AddClothesViewModel extends ChangeNotifier {
   }
 
   void onSubmitTapped() {
+    _isLoading = true;
+    notifyListeners();
     final name = _name;
     final width = int.tryParse(_width);
     final length = int.tryParse(_length);
@@ -66,6 +71,8 @@ class AddClothesViewModel extends ChangeNotifier {
         length == null ||
         sleeveLength == null ||
         shoulderWidth == null) {
+      _isLoading = false;
+      notifyListeners();
       return;
     }
     _subscription = _repository
@@ -81,6 +88,9 @@ class AddClothesViewModel extends ChangeNotifier {
       _event.add(const AddClothesViewEvent.back());
     }, onError: (e) {
       _event.add(AddClothesViewEvent.showError(e));
+    }, onDone: () {
+      _isLoading = false;
+      notifyListeners();
     });
   }
 
