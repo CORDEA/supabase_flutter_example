@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:supabase_flutter_example/add_clothes.dart';
-import 'package:supabase_flutter_example/clothes_view_model.dart';
+
+import 'add_clothes.dart';
+import 'clothes_view_model.dart';
 
 class Clothes extends HookConsumerWidget {
   const Clothes({super.key});
