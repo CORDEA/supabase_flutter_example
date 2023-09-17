@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase_flutter_example/clothes.dart';
+import 'package:supabase_flutter_example/entities/clothes.dart';
 import 'package:supabase_flutter_example/supabase.dart';
 
 part 'clothes_repository.g.dart';

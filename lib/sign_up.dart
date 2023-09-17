@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'home.dart';
+import 'clothes.dart';
 import 'sign_up_view_model.dart';
 
 class SignUp extends HookConsumerWidget {
@@ -18,7 +18,7 @@ class SignUp extends HookConsumerWidget {
           showHome: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const Home()),
+              MaterialPageRoute(builder: (_) => const Clothes()),
             );
           },
           showError: (e) {

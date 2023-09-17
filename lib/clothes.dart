@@ -1,44 +1,65 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:supabase_flutter_example/add_clothes.dart';
+import 'package:supabase_flutter_example/clothes_view_model.dart';
 
-part 'clothes.freezed.dart';
+class Clothes extends HookConsumerWidget {
+  const Clothes({super.key});
 
-@Freezed(copyWith: false)
-class Clothes with _$Clothes {
-  const Clothes._();
-
-  const factory Clothes.tops({
-    @Default(0) int id,
-    required String name,
-    required int width,
-    required int length,
-    required int sleeveLength,
-    required int shoulderWidth,
-  }) = _Tops;
-
-  Map<String, dynamic> toMap() {
-    return map(
-      tops: (e) => {
-        'type': 0,
-        'name': e.name,
-        'width': e.width,
-        'length': e.length,
-        'sleeve_length': e.sleeveLength,
-        'shoulder_width': e.shoulderWidth,
-      },
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final event =
+        ref.watch(clothesViewModelProvider.select((value) => value.event));
+    useEffect(() {
+      return event.listen((value) {
+        value.when(
+          showAddClothes: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AddClothes()),
+            );
+          },
+          showError: (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(e.toString())),
+            );
+          },
+        );
+      }).cancel;
+    }, [event]);
+    return Scaffold(
+      appBar: AppBar(title: const Text('Home')),
+      body: _Body(),
+      floatingActionButton: FloatingActionButton.large(
+        onPressed: ref.read(clothesViewModelProvider).onAddTapped,
+        child: const Icon(Icons.add),
+      ),
     );
   }
+}
 
-  static Clothes fromMap(Map<String, dynamic> map) {
-    if (map['type'] == 0) {
-      return Clothes.tops(
-        id: map['id'],
-        name: map['name'],
-        width: map['width'],
-        length: map['length'],
-        sleeveLength: map['sleeve_length'],
-        shoulderWidth: map['shoulder_width'],
-      );
-    }
-    throw UnimplementedError();
+class _Body extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items =
+        ref.watch(clothesViewModelProvider.select((value) => value.items));
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: items.map((e) => _Tile(e)).toList(),
+    );
+  }
+}
+
+class _Tile extends StatelessWidget {
+  const _Tile(this.model);
+
+  final ClothesItemModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(model.name),
+    );
   }
 }
