@@ -13,21 +13,53 @@ class Home extends HookConsumerWidget {
         ref.watch(homeViewModelProvider.select((value) => value.event));
     useEffect(() {
       return event.listen((value) {
-        value.when(showAddClothes: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const AddClothes()),
-          );
-        });
+        value.when(
+          showAddClothes: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AddClothes()),
+            );
+          },
+          showError: (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(e.toString())),
+            );
+          },
+        );
       }).cancel;
     }, [event]);
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: const Center(),
+      body: _Body(),
       floatingActionButton: FloatingActionButton.large(
         onPressed: ref.read(homeViewModelProvider).onAddTapped,
         child: const Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class _Body extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items =
+        ref.watch(homeViewModelProvider.select((value) => value.items));
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: items.map((e) => _Tile(e)).toList(),
+    );
+  }
+}
+
+class _Tile extends StatelessWidget {
+  const _Tile(this.model);
+
+  final HomeItemModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(model.name),
     );
   }
 }

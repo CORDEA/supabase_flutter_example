@@ -19,16 +19,19 @@ mixin _$HomeViewEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() showAddClothes,
+    required TResult Function(dynamic e) showError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? showAddClothes,
+    TResult? Function(dynamic e)? showError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? showAddClothes,
+    TResult Function(dynamic e)? showError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +51,7 @@ class _$_ShowAddClothes implements _ShowAddClothes {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() showAddClothes,
+    required TResult Function(dynamic e) showError,
   }) {
     return showAddClothes();
   }
@@ -56,6 +60,7 @@ class _$_ShowAddClothes implements _ShowAddClothes {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? showAddClothes,
+    TResult? Function(dynamic e)? showError,
   }) {
     return showAddClothes?.call();
   }
@@ -64,6 +69,7 @@ class _$_ShowAddClothes implements _ShowAddClothes {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? showAddClothes,
+    TResult Function(dynamic e)? showError,
     required TResult orElse(),
   }) {
     if (showAddClothes != null) {
@@ -75,4 +81,55 @@ class _$_ShowAddClothes implements _ShowAddClothes {
 
 abstract class _ShowAddClothes implements HomeViewEvent {
   const factory _ShowAddClothes() = _$_ShowAddClothes;
+}
+
+/// @nodoc
+
+class _$_ShowError implements _ShowError {
+  const _$_ShowError(this.e);
+
+  @override
+  final dynamic e;
+
+  @override
+  String toString() {
+    return 'HomeViewEvent.showError(e: $e)';
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() showAddClothes,
+    required TResult Function(dynamic e) showError,
+  }) {
+    return showError(e);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? showAddClothes,
+    TResult? Function(dynamic e)? showError,
+  }) {
+    return showError?.call(e);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? showAddClothes,
+    TResult Function(dynamic e)? showError,
+    required TResult orElse(),
+  }) {
+    if (showError != null) {
+      return showError(e);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ShowError implements HomeViewEvent {
+  const factory _ShowError(final dynamic e) = _$_ShowError;
+
+  dynamic get e;
 }
