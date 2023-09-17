@@ -15,8 +15,6 @@ final clothesViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 
 @Freezed(map: FreezedMapOptions.none, equal: false, copyWith: false)
 class ClothesViewEvent with _$ClothesViewEvent {
-  const factory ClothesViewEvent.showAddClothes() = _ShowAddClothes;
-
   const factory ClothesViewEvent.showError(dynamic e) = _ShowError;
 }
 
@@ -32,7 +30,7 @@ class ClothesViewModel extends ChangeNotifier {
 
   StreamSubscription? _subscription;
 
-  PublishSubject<ClothesViewEvent> get event => _event;
+  Stream<ClothesViewEvent> get event => _event;
 
   List<ClothesItemModel> get items => _items;
 
@@ -46,13 +44,9 @@ class ClothesViewModel extends ChangeNotifier {
       _items = event;
       notifyListeners();
     }, onError: (e) {
-      event.add(ClothesViewEvent.showError(e));
+      _event.add(ClothesViewEvent.showError(e));
     });
     _fetch.add(null);
-  }
-
-  void onAddTapped() {
-    _event.add(const ClothesViewEvent.showAddClothes());
   }
 
   @override

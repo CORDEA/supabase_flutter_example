@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'clothes_view_model.dart';
+part of 'home_view_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,21 +15,20 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$ClothesViewEvent {
-  dynamic get e => throw _privateConstructorUsedError;
+mixin _$HomeViewEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(dynamic e) showError,
+    required TResult Function() showAddClothes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(dynamic e)? showError,
+    TResult? Function()? showAddClothes,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(dynamic e)? showError,
+    TResult Function()? showAddClothes,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -37,49 +36,51 @@ mixin _$ClothesViewEvent {
 
 /// @nodoc
 
-class _$_ShowError implements _ShowError {
-  const _$_ShowError(this.e);
+class _$_ShowAddClothes
+    with DiagnosticableTreeMixin
+    implements _ShowAddClothes {
+  const _$_ShowAddClothes();
 
   @override
-  final dynamic e;
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'HomeViewEvent.showAddClothes()';
+  }
 
   @override
-  String toString() {
-    return 'ClothesViewEvent.showError(e: $e)';
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'HomeViewEvent.showAddClothes'));
   }
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(dynamic e) showError,
+    required TResult Function() showAddClothes,
   }) {
-    return showError(e);
+    return showAddClothes();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(dynamic e)? showError,
+    TResult? Function()? showAddClothes,
   }) {
-    return showError?.call(e);
+    return showAddClothes?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(dynamic e)? showError,
+    TResult Function()? showAddClothes,
     required TResult orElse(),
   }) {
-    if (showError != null) {
-      return showError(e);
+    if (showAddClothes != null) {
+      return showAddClothes();
     }
     return orElse();
   }
 }
 
-abstract class _ShowError implements ClothesViewEvent {
-  const factory _ShowError(final dynamic e) = _$_ShowError;
-
-  @override
-  dynamic get e;
+abstract class _ShowAddClothes implements HomeViewEvent {
+  const factory _ShowAddClothes() = _$_ShowAddClothes;
 }
