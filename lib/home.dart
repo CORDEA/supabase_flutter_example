@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'account.dart';
 import 'add_clothes.dart';
 import 'clothes.dart';
 import 'home_view_model.dart';
@@ -32,6 +33,7 @@ class Home extends HookConsumerWidget {
           index: index,
           children: const [
             Clothes(),
+            Account(),
           ],
         );
       }),
@@ -50,8 +52,8 @@ class Home extends HookConsumerWidget {
       ),
       floatingActionButton: Consumer(
         builder: (context, ref, _) {
-          final visible = ref.watch(
-              homeViewModelProvider.select((value) => value.visibleAdd));
+          final visible = ref
+              .watch(homeViewModelProvider.select((value) => value.visibleAdd));
           if (visible) {
             return FloatingActionButton.large(
               onPressed: ref.read(homeViewModelProvider).onAddTapped,
