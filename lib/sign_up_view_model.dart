@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'supabase.dart';
+import 'repositories/user_repository.dart';
 
 part 'sign_up_view_model.freezed.dart';
 
 final signUpViewModelProvider =
     ChangeNotifierProvider.autoDispose<SignUpViewModel>((ref) {
-  return SignUpViewModel(ref.watch(supabaseClientProvider));
+  return SignUpViewModel(ref.watch(userRepositoryProvider));
 });
 
 @Freezed(map: FreezedMapOptions.none, equal: false, copyWith: false)
@@ -23,9 +22,9 @@ class SignUpViewEvent with _$SignUpViewEvent {
 }
 
 class SignUpViewModel extends ChangeNotifier {
-  SignUpViewModel(this._client);
+  SignUpViewModel(this._repository);
 
-  final SupabaseClient _client;
+  final UserRepository _repository;
 
   String _emailAddress = '';
   String _password = '';
@@ -49,8 +48,11 @@ class SignUpViewModel extends ChangeNotifier {
   void onSubmitTapped() {
     _isLoading = true;
     notifyListeners();
-    _subscription = _client.auth
-        .signUp(email: _emailAddress, password: _password)
+    _subscription = _repository
+        .insert(
+          emailAddress: _emailAddress,
+          password: _password,
+        )
         .asStream()
         .listen((event) {
       _event.add(const SignUpViewEvent.showHome());
