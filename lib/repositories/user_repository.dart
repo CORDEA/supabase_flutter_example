@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,6 +17,7 @@ class UserRepository {
   UserRepository(this._client);
 
   final SupabaseClient _client;
+  static const _thumbnailId = 'thumbnail';
 
   Future<u.User> find() async {
     final user = _client.auth.currentUser;
@@ -28,11 +32,29 @@ class UserRepository {
     return u.User.fromMap(userInfo);
   }
 
+  Future<Uint8List> findThumbnail() {
+    final user = _client.auth.currentUser;
+    if (user == null) {
+      throw const AuthException('User not found.');
+    }
+    return _client.storage.from('users').download('${user.id}/$_thumbnailId');
+  }
+
   Future<FunctionResponse> insert({
     required String emailAddress,
     required String password,
   }) async {
     await _client.auth.signUp(email: emailAddress, password: password);
     return _client.functions.invoke('supabase-initialize-user');
+  }
+
+  Future<void> insertThumbnail(File file) async {
+    final user = _client.auth.currentUser;
+    if (user == null) {
+      throw const AuthException('User not found.');
+    }
+    await _client.storage
+        .from('users')
+        .upload('${user.id}/$_thumbnailId', file);
   }
 }

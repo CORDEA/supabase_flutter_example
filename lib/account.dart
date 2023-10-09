@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'account_view_model.dart';
 
-class Account extends StatelessWidget {
+class Account extends HookConsumerWidget {
   const Account({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final event =
+        ref.watch(accountViewModelProvider.select((value) => value.event));
+    useEffect(() {
+      return event.listen((value) {
+        value.when(pickImage: () async {
+          final image =
+              await ImagePicker().pickImage(source: ImageSource.gallery);
+          if (context.mounted) {
+            ref.read(accountViewModelProvider).onImagePicked(image);
+          }
+        }, showError: (e) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(e.toString())));
+        });
+      }).cancel;
+    }, [event]);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -19,13 +37,18 @@ class Account extends StatelessWidget {
               dimension: 128,
               child: InkWell(
                 borderRadius: BorderRadius.circular(64),
-                onTap: () {},
+                onTap: ref.read(accountViewModelProvider).onThumbnailTapped,
                 child: Consumer(builder: (context, ref, _) {
-                  final id = ref.watch(accountViewModelProvider
-                      .select((value) => value.imageId));
-                  return id.isEmpty
+                  final value = ref.watch(accountViewModelProvider
+                      .select((value) => value.thumbnail));
+                  return value == null
                       ? SvgPicture.asset('assets/account_empty.svg')
-                      : Image.network(id);
+                      : ClipOval(
+                          child: Image.memory(
+                            value,
+                            fit: BoxFit.cover,
+                          ),
+                        );
                 }),
               ),
             ),

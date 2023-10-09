@@ -1,13 +1,26 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'repositories/user_repository.dart';
+
+part 'account_view_model.freezed.dart';
 
 final accountViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   return AccountViewModel(ref.watch(userRepositoryProvider));
 });
+
+@Freezed(map: FreezedMapOptions.none, equal: false, copyWith: false)
+class AccountViewEvent with _$AccountViewEvent {
+  const factory AccountViewEvent.pickImage() = _PickImage;
+
+  const factory AccountViewEvent.showError(dynamic e) = _ShowError;
+}
 
 class AccountViewModel extends ChangeNotifier {
   AccountViewModel(this._repository) {
@@ -15,25 +28,61 @@ class AccountViewModel extends ChangeNotifier {
   }
 
   final UserRepository _repository;
-  StreamSubscription? _subscription;
+  final _subscriptions = CompositeSubscription();
+  final _event = PublishSubject<AccountViewEvent>();
   String _name = '';
-  String _imageId = '';
+  Uint8List? _thumbnail;
+  bool _uploading = false;
 
   String get name => _name;
 
-  String get imageId => _imageId;
+  Uint8List? get thumbnail => _thumbnail;
+
+  bool get uploading => _uploading;
+
+  Stream<AccountViewEvent> get event => _event;
 
   Future<void> _init() async {
-    _subscription = _repository.find().asStream().listen((event) {
-      _name = event.name;
-      _imageId = event.imageId ?? '';
+    Rx.zip2(
+      _repository.find().asStream(),
+      _repository.findThumbnail().asStream(),
+      (a, b) {
+        _name = a.name;
+        _thumbnail = b;
+        notifyListeners();
+      },
+    ).listen((_) {}).addTo(_subscriptions);
+  }
+
+  void onThumbnailTapped() {
+    _event.add(const AccountViewEvent.pickImage());
+  }
+
+  void onImagePicked(XFile? file) {
+    if (file == null) {
+      return;
+    }
+    _uploading = true;
+    notifyListeners();
+    _repository
+        .insertThumbnail(File(file.path))
+        .asStream()
+        .flatMap((_) => _repository.findThumbnail().asStream())
+        .listen((event) {
+      _thumbnail = event;
       notifyListeners();
-    });
+    }, onError: (e) {
+      _event.add(AccountViewEvent.showError(e));
+    }, onDone: () {
+      _uploading = false;
+      notifyListeners();
+    }).addTo(_subscriptions);
   }
 
   @override
   void dispose() {
-    _subscription?.cancel();
+    _event.close();
+    _subscriptions.cancel();
     super.dispose();
   }
 }

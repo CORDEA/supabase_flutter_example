@@ -7,14 +7,12 @@ class User with _$User {
   const factory User({
     required String id,
     required String name,
-    required String? imageId,
   }) = _User;
 
   static User fromMap(Map<String, dynamic> map) {
     return User(
       id: map['id'],
       name: map['name'],
-      imageId: map['image_id'],
     );
   }
 }
