@@ -20,6 +20,8 @@ class AccountViewEvent with _$AccountViewEvent {
   const factory AccountViewEvent.pickImage() = _PickImage;
 
   const factory AccountViewEvent.showError(dynamic e) = _ShowError;
+
+  const factory AccountViewEvent.back() = _Back;
 }
 
 class AccountViewModel extends ChangeNotifier {
@@ -76,6 +78,14 @@ class AccountViewModel extends ChangeNotifier {
     }, onDone: () {
       _uploading = false;
       notifyListeners();
+    }).addTo(_subscriptions);
+  }
+
+  void onDeleteAccountTapped() {
+    _repository.delete().asStream().listen((event) {
+      _event.add(const AccountViewEvent.back());
+    }, onError: (e) {
+      _event.add(AccountViewEvent.showError(e));
     }).addTo(_subscriptions);
   }
 

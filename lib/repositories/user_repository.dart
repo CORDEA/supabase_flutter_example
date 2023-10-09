@@ -57,4 +57,8 @@ class UserRepository {
         .from('users')
         .upload('${user.id}/$_thumbnailId', file);
   }
+
+  Future<FunctionResponse> delete() {
+    return _client.functions.invoke('supabase-delete-user');
+  }
 }

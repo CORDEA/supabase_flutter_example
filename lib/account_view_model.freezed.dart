@@ -20,18 +20,21 @@ mixin _$AccountViewEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() pickImage,
     required TResult Function(dynamic e) showError,
+    required TResult Function() back,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pickImage,
     TResult? Function(dynamic e)? showError,
+    TResult? Function()? back,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pickImage,
     TResult Function(dynamic e)? showError,
+    TResult Function()? back,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -58,6 +61,7 @@ class _$_PickImage with DiagnosticableTreeMixin implements _PickImage {
   TResult when<TResult extends Object?>({
     required TResult Function() pickImage,
     required TResult Function(dynamic e) showError,
+    required TResult Function() back,
   }) {
     return pickImage();
   }
@@ -67,6 +71,7 @@ class _$_PickImage with DiagnosticableTreeMixin implements _PickImage {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pickImage,
     TResult? Function(dynamic e)? showError,
+    TResult? Function()? back,
   }) {
     return pickImage?.call();
   }
@@ -76,6 +81,7 @@ class _$_PickImage with DiagnosticableTreeMixin implements _PickImage {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pickImage,
     TResult Function(dynamic e)? showError,
+    TResult Function()? back,
     required TResult orElse(),
   }) {
     if (pickImage != null) {
@@ -115,6 +121,7 @@ class _$_ShowError with DiagnosticableTreeMixin implements _ShowError {
   TResult when<TResult extends Object?>({
     required TResult Function() pickImage,
     required TResult Function(dynamic e) showError,
+    required TResult Function() back,
   }) {
     return showError(e);
   }
@@ -124,6 +131,7 @@ class _$_ShowError with DiagnosticableTreeMixin implements _ShowError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pickImage,
     TResult? Function(dynamic e)? showError,
+    TResult? Function()? back,
   }) {
     return showError?.call(e);
   }
@@ -133,6 +141,7 @@ class _$_ShowError with DiagnosticableTreeMixin implements _ShowError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pickImage,
     TResult Function(dynamic e)? showError,
+    TResult Function()? back,
     required TResult orElse(),
   }) {
     if (showError != null) {
@@ -146,4 +155,59 @@ abstract class _ShowError implements AccountViewEvent {
   const factory _ShowError(final dynamic e) = _$_ShowError;
 
   dynamic get e;
+}
+
+/// @nodoc
+
+class _$_Back with DiagnosticableTreeMixin implements _Back {
+  const _$_Back();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AccountViewEvent.back()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'AccountViewEvent.back'));
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() pickImage,
+    required TResult Function(dynamic e) showError,
+    required TResult Function() back,
+  }) {
+    return back();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? pickImage,
+    TResult? Function(dynamic e)? showError,
+    TResult? Function()? back,
+  }) {
+    return back?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? pickImage,
+    TResult Function(dynamic e)? showError,
+    TResult Function()? back,
+    required TResult orElse(),
+  }) {
+    if (back != null) {
+      return back();
+    }
+    return orElse();
+  }
+}
+
+abstract class _Back implements AccountViewEvent {
+  const factory _Back() = _$_Back;
 }

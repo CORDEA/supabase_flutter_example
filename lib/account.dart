@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'account_view_model.dart';
+import 'sign_in.dart';
 
 class Account extends HookConsumerWidget {
   const Account({super.key});
@@ -24,6 +25,12 @@ class Account extends HookConsumerWidget {
         }, showError: (e) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(e.toString())));
+        }, back: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const SignIn()),
+            (route) => false,
+          );
         });
       }).cancel;
     }, [event]);
@@ -65,7 +72,7 @@ class Account extends HookConsumerWidget {
           }),
           const Spacer(),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: ref.read(accountViewModelProvider).onDeleteAccountTapped,
             style: ElevatedButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
               backgroundColor: Theme.of(context).colorScheme.errorContainer,
