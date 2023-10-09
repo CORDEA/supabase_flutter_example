@@ -17,12 +17,16 @@ class AccountViewModel extends ChangeNotifier {
   final UserRepository _repository;
   StreamSubscription? _subscription;
   String _name = '';
+  String _imageId = '';
 
   String get name => _name;
+
+  String get imageId => _imageId;
 
   Future<void> _init() async {
     _subscription = _repository.find().asStream().listen((event) {
       _name = event.name;
+      _imageId = event.imageId ?? '';
       notifyListeners();
     });
   }

@@ -18,21 +18,24 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String? get imageId => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 
 class _$_User implements _User {
-  const _$_User({required this.id, required this.name});
+  const _$_User({required this.id, required this.name, required this.imageId});
 
   @override
   final String id;
   @override
   final String name;
+  @override
+  final String? imageId;
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name)';
+    return 'User(id: $id, name: $name, imageId: $imageId)';
   }
 
   @override
@@ -41,19 +44,24 @@ class _$_User implements _User {
         (other.runtimeType == runtimeType &&
             other is _$_User &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.imageId, imageId) || other.imageId == imageId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(runtimeType, id, name, imageId);
 }
 
 abstract class _User implements User {
-  const factory _User({required final String id, required final String name}) =
-      _$_User;
+  const factory _User(
+      {required final String id,
+      required final String name,
+      required final String? imageId}) = _$_User;
 
   @override
   String get id;
   @override
   String get name;
+  @override
+  String? get imageId;
 }

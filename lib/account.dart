@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'account_view_model.dart';
@@ -13,7 +14,22 @@ class Account extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const CircleAvatar(radius: 64),
+          Center(
+            child: SizedBox.square(
+              dimension: 128,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(64),
+                onTap: () {},
+                child: Consumer(builder: (context, ref, _) {
+                  final id = ref.watch(accountViewModelProvider
+                      .select((value) => value.imageId));
+                  return id.isEmpty
+                      ? SvgPicture.asset('assets/account_empty.svg')
+                      : Image.network(id);
+                }),
+              ),
+            ),
+          ),
           const SizedBox(height: 32),
           Consumer(builder: (context, ref, _) {
             final name = ref

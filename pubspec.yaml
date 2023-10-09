@@ -42,6 +42,7 @@ dependencies:
   rxdart: ^0.27.7
   riverpod_annotation: ^2.1.2
   freezed_annotation: ^2.4.1
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
 
   assets:
     - .env
+    - assets/account_empty.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
