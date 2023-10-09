@@ -83,7 +83,11 @@ class AccountViewModel extends ChangeNotifier {
 
   void onDeleteAccountTapped() {
     _repository.delete().asStream().listen((event) {
-      _event.add(const AccountViewEvent.back());
+      if ((event.status ?? 500) >= 400) {
+        _event.add(AccountViewEvent.showError(event.data));
+      } else {
+        _event.add(const AccountViewEvent.back());
+      }
     }, onError: (e) {
       _event.add(AccountViewEvent.showError(e));
     }).addTo(_subscriptions);
