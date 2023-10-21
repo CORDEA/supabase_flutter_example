@@ -52,6 +52,7 @@ class SignUp extends HookConsumerWidget {
               decoration: const InputDecoration(
                 hintText: 'Password',
               ),
+              obscureText: true,
               onChanged: ref.read(signUpViewModelProvider).onPasswordChanged,
             ),
           ],

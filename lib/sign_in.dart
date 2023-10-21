@@ -49,6 +49,7 @@ class SignIn extends HookConsumerWidget {
               decoration: const InputDecoration(
                 hintText: 'Password',
               ),
+              obscureText: true,
               onChanged: ref.read(signInViewModelProvider).onPasswordChanged,
             ),
             const SizedBox(height: 32),
