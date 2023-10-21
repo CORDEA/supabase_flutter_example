@@ -20,18 +20,21 @@ mixin _$AddClothesViewEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() back,
     required TResult Function(dynamic e) showError,
+    required TResult Function() pickImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? back,
     TResult? Function(dynamic e)? showError,
+    TResult? Function()? pickImage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? back,
     TResult Function(dynamic e)? showError,
+    TResult Function()? pickImage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -52,6 +55,7 @@ class _$_Back implements _Back {
   TResult when<TResult extends Object?>({
     required TResult Function() back,
     required TResult Function(dynamic e) showError,
+    required TResult Function() pickImage,
   }) {
     return back();
   }
@@ -61,6 +65,7 @@ class _$_Back implements _Back {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? back,
     TResult? Function(dynamic e)? showError,
+    TResult? Function()? pickImage,
   }) {
     return back?.call();
   }
@@ -70,6 +75,7 @@ class _$_Back implements _Back {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? back,
     TResult Function(dynamic e)? showError,
+    TResult Function()? pickImage,
     required TResult orElse(),
   }) {
     if (back != null) {
@@ -101,6 +107,7 @@ class _$_ShowError implements _ShowError {
   TResult when<TResult extends Object?>({
     required TResult Function() back,
     required TResult Function(dynamic e) showError,
+    required TResult Function() pickImage,
   }) {
     return showError(e);
   }
@@ -110,6 +117,7 @@ class _$_ShowError implements _ShowError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? back,
     TResult? Function(dynamic e)? showError,
+    TResult? Function()? pickImage,
   }) {
     return showError?.call(e);
   }
@@ -119,6 +127,7 @@ class _$_ShowError implements _ShowError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? back,
     TResult Function(dynamic e)? showError,
+    TResult Function()? pickImage,
     required TResult orElse(),
   }) {
     if (showError != null) {
@@ -132,4 +141,53 @@ abstract class _ShowError implements AddClothesViewEvent {
   const factory _ShowError(final dynamic e) = _$_ShowError;
 
   dynamic get e;
+}
+
+/// @nodoc
+
+class _$_PickImage implements _PickImage {
+  const _$_PickImage();
+
+  @override
+  String toString() {
+    return 'AddClothesViewEvent.pickImage()';
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() back,
+    required TResult Function(dynamic e) showError,
+    required TResult Function() pickImage,
+  }) {
+    return pickImage();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? back,
+    TResult? Function(dynamic e)? showError,
+    TResult? Function()? pickImage,
+  }) {
+    return pickImage?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? back,
+    TResult Function(dynamic e)? showError,
+    TResult Function()? pickImage,
+    required TResult orElse(),
+  }) {
+    if (pickImage != null) {
+      return pickImage();
+    }
+    return orElse();
+  }
+}
+
+abstract class _PickImage implements AddClothesViewEvent {
+  const factory _PickImage() = _$_PickImage;
 }

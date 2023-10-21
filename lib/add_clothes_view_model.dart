@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'entities/clothes.dart';
@@ -19,6 +21,8 @@ class AddClothesViewEvent with _$AddClothesViewEvent {
   const factory AddClothesViewEvent.back() = _Back;
 
   const factory AddClothesViewEvent.showError(dynamic e) = _ShowError;
+
+  const factory AddClothesViewEvent.pickImage() = _PickImage;
 }
 
 class AddClothesViewModel extends ChangeNotifier {
@@ -31,6 +35,8 @@ class AddClothesViewModel extends ChangeNotifier {
 
   PublishSubject<AddClothesViewEvent> get event => _event;
 
+  File? get thumbnail => _thumbnail;
+
   bool _isLoading = false;
   StreamSubscription? _subscription;
   String _name = '';
@@ -38,6 +44,19 @@ class AddClothesViewModel extends ChangeNotifier {
   String _length = '';
   String _sleeveLength = '';
   String _shoulderWidth = '';
+  File? _thumbnail;
+
+  void onThumbnailTapped() {
+    _event.add(const AddClothesViewEvent.pickImage());
+  }
+
+  void onImagePicked(XFile? file) {
+    if (file == null) {
+      return;
+    }
+    _thumbnail = File(file.path);
+    notifyListeners();
+  }
 
   void onNameChanged(String value) {
     _name = value;

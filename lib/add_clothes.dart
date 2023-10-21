@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'add_clothes_view_model.dart';
 
@@ -19,6 +20,12 @@ class AddClothes extends HookConsumerWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(e.toString())),
           );
+        }, pickImage: () async {
+          final image =
+              await ImagePicker().pickImage(source: ImageSource.gallery);
+          if (context.mounted) {
+            ref.read(addClothesViewModelProvider).onImagePicked(image);
+          }
         });
       }).cancel;
     }, [event]);
@@ -48,6 +55,45 @@ class _Body extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Consumer(
+              builder: (context, ref, child) {
+                final file = ref.watch(addClothesViewModelProvider
+                    .select((value) => value.thumbnail));
+                if (file == null) {
+                  return Ink(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: InkWell(
+                      onTap: ref
+                          .read(addClothesViewModelProvider)
+                          .onThumbnailTapped,
+                      child: const Center(
+                        child: Icon(Icons.photo_library_outlined, size: 32),
+                      ),
+                    ),
+                  );
+                }
+                return Ink(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: FileImage(file),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: child,
+                );
+              },
+              child: InkWell(
+                onTap: ref.read(addClothesViewModelProvider).onThumbnailTapped,
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
           TextField(
             onChanged: ref.read(addClothesViewModelProvider).onNameChanged,
             decoration: const InputDecoration(hintText: 'Name'),
