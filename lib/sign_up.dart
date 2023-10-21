@@ -16,7 +16,7 @@ class SignUp extends HookConsumerWidget {
       return event.listen((value) {
         value.when(
           showHome: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (_) => const Home()),
             );
