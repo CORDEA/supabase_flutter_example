@@ -22,24 +22,25 @@ mixin _$Clothes {
   int get length => throw _privateConstructorUsedError;
   int get sleeveLength => throw _privateConstructorUsedError;
   int get shoulderWidth => throw _privateConstructorUsedError;
+  String? get imageId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int id, String name, int width, int length,
-            int sleeveLength, int shoulderWidth)
+            int sleeveLength, int shoulderWidth, String? imageId)
         tops,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int id, String name, int width, int length,
-            int sleeveLength, int shoulderWidth)?
+            int sleeveLength, int shoulderWidth, String? imageId)?
         tops,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int id, String name, int width, int length,
-            int sleeveLength, int shoulderWidth)?
+            int sleeveLength, int shoulderWidth, String? imageId)?
         tops,
     required TResult orElse(),
   }) =>
@@ -71,7 +72,8 @@ class _$_Tops extends _Tops {
       required this.width,
       required this.length,
       required this.sleeveLength,
-      required this.shoulderWidth})
+      required this.shoulderWidth,
+      required this.imageId})
       : super._();
 
   @override
@@ -87,10 +89,12 @@ class _$_Tops extends _Tops {
   final int sleeveLength;
   @override
   final int shoulderWidth;
+  @override
+  final String? imageId;
 
   @override
   String toString() {
-    return 'Clothes.tops(id: $id, name: $name, width: $width, length: $length, sleeveLength: $sleeveLength, shoulderWidth: $shoulderWidth)';
+    return 'Clothes.tops(id: $id, name: $name, width: $width, length: $length, sleeveLength: $sleeveLength, shoulderWidth: $shoulderWidth, imageId: $imageId)';
   }
 
   @override
@@ -105,43 +109,46 @@ class _$_Tops extends _Tops {
             (identical(other.sleeveLength, sleeveLength) ||
                 other.sleeveLength == sleeveLength) &&
             (identical(other.shoulderWidth, shoulderWidth) ||
-                other.shoulderWidth == shoulderWidth));
+                other.shoulderWidth == shoulderWidth) &&
+            (identical(other.imageId, imageId) || other.imageId == imageId));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, width, length, sleeveLength, shoulderWidth);
+  int get hashCode => Object.hash(runtimeType, id, name, width, length,
+      sleeveLength, shoulderWidth, imageId);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int id, String name, int width, int length,
-            int sleeveLength, int shoulderWidth)
+            int sleeveLength, int shoulderWidth, String? imageId)
         tops,
   }) {
-    return tops(id, name, width, length, sleeveLength, shoulderWidth);
+    return tops(id, name, width, length, sleeveLength, shoulderWidth, imageId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int id, String name, int width, int length,
-            int sleeveLength, int shoulderWidth)?
+            int sleeveLength, int shoulderWidth, String? imageId)?
         tops,
   }) {
-    return tops?.call(id, name, width, length, sleeveLength, shoulderWidth);
+    return tops?.call(
+        id, name, width, length, sleeveLength, shoulderWidth, imageId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int id, String name, int width, int length,
-            int sleeveLength, int shoulderWidth)?
+            int sleeveLength, int shoulderWidth, String? imageId)?
         tops,
     required TResult orElse(),
   }) {
     if (tops != null) {
-      return tops(id, name, width, length, sleeveLength, shoulderWidth);
+      return tops(
+          id, name, width, length, sleeveLength, shoulderWidth, imageId);
     }
     return orElse();
   }
@@ -182,7 +189,8 @@ abstract class _Tops extends Clothes {
       required final int width,
       required final int length,
       required final int sleeveLength,
-      required final int shoulderWidth}) = _$_Tops;
+      required final int shoulderWidth,
+      required final String? imageId}) = _$_Tops;
   const _Tops._() : super._();
 
   @override
@@ -197,4 +205,6 @@ abstract class _Tops extends Clothes {
   int get sleeveLength;
   @override
   int get shoulderWidth;
+  @override
+  String? get imageId;
 }

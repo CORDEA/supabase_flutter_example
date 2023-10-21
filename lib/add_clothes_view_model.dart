@@ -95,23 +95,33 @@ class AddClothesViewModel extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    _subscription = _repository
-        .insert(Clothes.tops(
-          name: name,
-          width: width,
-          length: length,
-          sleeveLength: sleeveLength,
-          shoulderWidth: shoulderWidth,
-        ))
-        .asStream()
+    _subscription = Stream.value(_thumbnail)
+        .flatMap((file) {
+          if (file == null) {
+            return Stream.value(null);
+          }
+          return _repository.insertThumbnail(file).asStream();
+        })
+        .flatMap(
+          (value) => _repository
+              .insert(Clothes.tops(
+                name: name,
+                width: width,
+                length: length,
+                sleeveLength: sleeveLength,
+                shoulderWidth: shoulderWidth,
+                imageId: value,
+              ))
+              .asStream(),
+        )
         .listen((event) {
-      _event.add(const AddClothesViewEvent.back());
-    }, onError: (e) {
-      _event.add(AddClothesViewEvent.showError(e));
-    }, onDone: () {
-      _isLoading = false;
-      notifyListeners();
-    });
+          _event.add(const AddClothesViewEvent.back());
+        }, onError: (e) {
+          _event.add(AddClothesViewEvent.showError(e));
+        }, onDone: () {
+          _isLoading = false;
+          notifyListeners();
+        });
   }
 
   @override

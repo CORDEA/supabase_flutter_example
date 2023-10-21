@@ -13,6 +13,7 @@ class Clothes with _$Clothes {
     required int length,
     required int sleeveLength,
     required int shoulderWidth,
+    required String? imageId,
   }) = _Tops;
 
   Map<String, dynamic> toMap() {
@@ -24,6 +25,7 @@ class Clothes with _$Clothes {
         'length': e.length,
         'sleeve_length': e.sleeveLength,
         'shoulder_width': e.shoulderWidth,
+        'image_id': e.imageId,
       },
     );
   }
@@ -37,6 +39,7 @@ class Clothes with _$Clothes {
         length: map['length'],
         sleeveLength: map['sleeve_length'],
         shoulderWidth: map['shoulder_width'],
+        imageId: map['image_id'],
       );
     }
     throw UnimplementedError();
