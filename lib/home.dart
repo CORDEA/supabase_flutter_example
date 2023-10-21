@@ -37,19 +37,24 @@ class Home extends HookConsumerWidget {
           ],
         );
       }),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Account',
-          ),
-        ],
-        onTap: ref.read(homeViewModelProvider).onBottomItemChanged,
-      ),
+      bottomNavigationBar: Consumer(builder: (context, ref, _) {
+        final index =
+            ref.watch(homeViewModelProvider.select((value) => value.index));
+        return BottomNavigationBar(
+          currentIndex: index,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_outlined),
+              label: 'Account',
+            ),
+          ],
+          onTap: ref.read(homeViewModelProvider).onBottomItemChanged,
+        );
+      }),
       floatingActionButton: Consumer(
         builder: (context, ref, _) {
           final visible = ref
