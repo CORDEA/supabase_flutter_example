@@ -47,7 +47,11 @@ class AccountViewModel extends ChangeNotifier {
   Future<void> _init() async {
     Rx.zip2(
       _repository.find().asStream(),
-      _repository.findThumbnail().asStream(),
+      _repository
+          .findThumbnail()
+          .asStream()
+          .cast<Uint8List?>()
+          .onErrorReturn(null),
       (a, b) {
         _name = a.name;
         _thumbnail = b;
